@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="description" content="Visualization of the behaviours of New Yorkers through Foursquare check-ins">
+    <meta name="author" content="Woojin Kim, Arushi Arora">
+
+    <title>Visualizing New York City Foursquare Data</title>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-71629601-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet">
+    <link href="styles/histogram.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Visualizing New York City Foursquare Data</h1>
+        <p id="bs-overrides" class="lead">Explore the behaviours of New Yorkers through Foursquare check-ins</p>
+        <p id="bs-overrides" class="credits">Woojin Kim, Arushi Arora, Azam Alfayez &middot; December 10, 2015</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <p>New York City is arguably the best-known city in the world. The most populated city in the United States, it is home to over <a href="http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?src=bkmk">8 million citizens</a> as well as hosting <a href="http://www.reuters.com/article/us-usa-newyork-tourism-idUSKBN0L61XM20150202" title="New York City tourism hit record high in 2014, officials say">over 56 million tourists just in 2014</a>. As such, New York is one of the most popular cities on <a href="https://foursquare.com/" title="Foursquare">Foursquare</a>, where users can "check in" and share their locations with their phone to share with friends, earn badges, and other rewards in the website. The <a href="https://sites.google.com/site/yangdingqi/home/foursquare-dataset">Foursquare dataset</a> made available by <a href="https://sites.google.com/site/yangdingqi/home">Dingqi Yang</a> contains location, time, and venue information for over 227k check-ins in New York recorded over nearly a year from April 2012 to February 2013. In this project, we attempt to explore the behaviours of Foursquare users in New York.</p>
+        </div>
+      </div>
+
+      <div class="row top20">
+        <div class="col-xs-12">
+          <div class="embed-responsive checkin-map" style="position: relative; overflow: hidden; padding-bottom: 42%;">
+            <iframe class="embed-responsive-item" src="map.html"></iframe>
+          </div>
+        </div>
+        <div class="col-xs-12 text-center">
+          <p class="caption"><strong>One day in New York.</strong> Every check-in condensed and visualized as one day of check-ins</p>
+        </div>
+      </div>
+
+      <div class="row section">
+        <div class="col-xs-12">
+          <h3>Check-ins through the day</h3>
+          <p>How do check-ins vary throughout the day? How much can we learn about our days from our check-in patterns? The 227k check-ins in the dataset resulted in roughly 19,000 check-ins events each month, allowing us to have a granular look at users' behaviours through many different timeframes of the year. Try different combinations of months and days of the week below to see the number of check-ins at every hour of the day.</p>
+
+          <p>As expected, there are three clear peaks showing coffee/breakfast, lunch, and dinner times in almost every timeframe, then a tapering off of late night bar check-ins. There isn't a particularly discernable pattern through the different months, but <a href="#weekday-vs-weekend">the difference between the days of the week</a> is quite defined.</p>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="histogram"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 text-center button-labels">
+          <div class="btn-group btn-group-xs" role="group" aria-label="...">
+            <button type="button" class="btn btn-default btn-month center-block active" value="1">January</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="2">February</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="3">March</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="4">April</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="5">May</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="6">June</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="7">July</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="8">August</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="9">September</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="10">October</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="11">November</button>
+            <button type="button" class="btn btn-default btn-month center-block active" value="12">December</button>
+          </div>
+        </div>
+      </div>
+      <div class="row top10">
+        <div class="col-md-12 text-center button-labels">
+          <div class="btn-group btn-group-xs" role="group" aria-label="...">
+            <button type="button" class="btn btn-default btn-day center-block day-weekend active" value="6">Sunday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekday active" value="0">Monday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekday active" value="1">Tuesday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekday active" value="2">Wednesday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekday active" value="3">Thursday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekday active" value="4">Friday</button>
+            <button type="button" class="btn btn-default btn-day center-block day-weekend active" value="5">Saturday</button>
+          </div>
+
+          <div class="btn-group btn-group-xs btn-group-specials" role="group" aria-label="...">
+            <button type="button" class="btn btn-default center-block weekend-select">Weekend</button>
+            <button type="button" class="btn btn-default center-block weekday-select">Weekday</button>
+          </div>
+
+          <div class="btn-group btn-group-xs btn-group-specials" role="group" aria-label="...">
+            <button type="button" class="btn btn-default center-block select-all">Select All</button>
+            <button type="button" class="btn btn-default center-block deselect-all">Deselect All</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row section">
+        <div class="col-xs-12">
+          <h3 id="weekday-vs-weekend">Weekdays vs weekend</h3>
+          <div class="row">
+            <div class="col-md-6 text-center">
+              <div id="day-comparison"></div>
+              <div id="dc-tooltip" class="tooltip"></div>
+            </div>
+            <div class="col-md-6">
+              <p>On the daily histogram above, the most striking differences were seen between the days of the week, particularly between the weekdays and the weekend. Here, we see all the days of the week at the same time. Hover over the lines to explore highlight a specific day.</p>
+
+              <p>The three peaks for coffee, lunch, and dinner were clearly defined for the weekdays. For the weekends, however, there isn't a clear peak throughout the day; instead, it is a more gradual rise of check-ins, peaking sometime after noon. The wake-up times are noticeably later for the weekends than the weekdays as well. Interestingly, while the wake-up behaviour looks identical for both of the weekend days, the Saturday night pattern is more like that of Friday.</p>
+
+              <p>Not surprisingly, people seem the most desperate for coffee on Monday mornings. Perhaps in preparation for Friday, Thursdays have the lowest peaks among all the weekdays.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>When do people...?</h3>
+          <p>The category information included in the dataset also allows us to see the differences in check-in patterns between different venue categories. The following series of graphs show the number of check-ins throughout the day for six different kinds of venues.</p>
+        </div>
+      </div>
+
+      <div class="row text-center top25">
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm1"></div>Bars</div>
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm2"></div>Coffee Shops</div>
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm3"></div>Gym &amp; Fitness Centres</div>
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm4"></div>Clothing Stores</div>
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm5"></div>Subway</div>
+        <div class="col-md-4 col-sm-6 sm-label"><div id="category-sm6"></div>College Buildings</div>
+      </div>
+
+       <div class="row top25">
+        <div class="col-xs-12">
+          <p>By far the most popular category for check-ins in New York City is bars. As expected, the number of check-ins explodes as typical working hours end at 5 pm, peaking at 11 pm. <a href="http://www.sla.ny.gov/provisions-for-county-closing-hours" title="New York State - Provisions for County Closing Hours">The last call in New York is at 4 am</a>, accordingly, there is very sharp decling leading up to it. There's still a high number of baseline check-ins throughout the day. As many bars double as restaurants and coffee shops during the day, it's likely that many daytime check-ins are as a result of this.</p>
+
+          <p>Coffee shops and subways both show a high morning peak, but with an earlier peak for the subway, presumably as people get coffee after getting to their workplaces. Another category of interest is gyms and fitness centres, showing two distinct peaks for some people trying to fit gym before work and others after. It's interesting to see that while subway check-ins are great for visualizing when people get to work, other categories like bars and gyms are more useful at visualizing when people leave work.</p>
+        </div>
+       </div>
+
+
+      <div class="row section">
+        <div class="col-xs-12">
+          <h3>Categories</h3>
+          <p>This chart depicts the top 12 check-in categories for each borough as percentage of total check-ins for that borough. As we saw above, it is no surprise that bars are the most popular check-in category in Manhattan followed by the office. For all the other boroughs, homes constitute the highest proportion of check-ins followed by subway check-ins, suggesting that generally Manhattan is the place for work, while other boroughs are more popular for residences. Here we can also see borough specific activities like airport check-ins for Queens thanks to <abbr title="John F. Kennedy International Airport">JFK</abbr> &amp; LaGuardia and ferry check-ins for Staten Island thanks to the Staten Island Ferry.</p>
+        </div>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10 col-xs-12">
+            <div id="category-chart"></div>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 button-labels text-center">
+            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+              <button type="button" class="btn btn-default btn-boro center-block inactive" value="Manhattan">Manhattan</button>
+              <button type="button" class="btn btn-default btn-boro center-block inactive" value="Brooklyn">Brooklyn</button>
+              <button type="button" class="btn btn-default btn-boro center-block inactive" value="Bronx">Bronx</button>
+              <button type="button" class="btn btn-default btn-boro center-block inactive" value="Queens">Queens</button>
+              <button type="button" class="btn btn-default btn-boro center-block inactive" value="Staten Island">Staten Island</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row section">
+        <div class="col-xs-12">
+          <h3>Summary</h3>
+          <p>As our social networking use continues to grow, it's also incredible to see the amount of information collected about our daily lives. While tools like Foursquare may have been for sharing check-ins in the beginning, as we see above, its data provide a fascinating insight into people's behaviours, far beyond what surveys only decades ago may have provided.</p>
+        </div>
+      </div>
+
+      <div class="row section final-section">
+        <div class="col-xs-12">
+          <h3>Credits and Source</h3>
+          <p>This project was created by Woojin Kim, Arushi Arora, and Azam Alfayez for the <a href="https://github.com/jsoma/storytelling-2015" title="Storytelling with Data Github repository">Storytelling with Data</a> course at Columbia University.</p>
+
+          <p>We would like to thank <a href="http://jonathansoma.com/" title="Jonathan Soma">Jonathan Soma</a> for the amazing tutorials and, most of all, a fantastic course. This project makes use of <a href="http://d3js.org/" title="D3">D3</a>, <a href="https://cartodb.com/" title="CartoDB">CartoDB</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, and <a href="https://jquery.com/" title="jQuery">jQuery</a>. Foursquare check-in dataset courtesy of <a href="https://sites.google.com/site/yangdingqi/home/foursquare-dataset" title="Dingqi Yang, Daqing Zhang, Vincent W. Zheng, Zhiyong Yu. Modeling User Activity Preference by Leveraging User Spatial Temporal Characteristics in LBSNs. IEEE Trans. on Systems, Man, and Cybernetics: Systems, (TSMC), 45(1), 129-142, 2015.">Dingqi Yang</a> (<a href="http://www-public.tem-tsp.eu/~zhang_da/pub/TSMC_YANG_2014.pdf">PDF</a>).</p>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/d3.min.js"></script>
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/histogram.js"></script>
+    <script src="scripts/small_multiples.js"></script>
+    <script src="scripts/day_comparison.js"></script>
+    <script src="scripts/categories.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+  </body>
+</html>
